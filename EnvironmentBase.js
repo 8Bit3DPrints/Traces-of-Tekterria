@@ -1,12 +1,21 @@
+// Import necessary modules for environmental management
+import { WeatherEffects } from './WeatherEffects.js';
+import { TimeOfDayEffects } from './TimeOfDayEffects.js';
+import { SpecialEvents } from './SpecialEvents.js';
+import { TerrainEffects } from './TerrainEffects.js';
+import { EnvironmentalUtilities } from './EnvironmentalUtilities.js';
+
 export class EnvironmentBase {
-    constructor() {
+    constructor(scene, map) {
+        this.scene = scene; // Represents the graphical scene context
+        this.map = map; // Represents the game map details
         this.currentEnvironment = {
-            location: 'wasteland', // The default starting location in a post-apocalyptic world
-            weather: 'clear', // Initial weather condition
-            timeOfDay: 'day', // Initial time of day
-            specialEvents: [] // Array to hold any ongoing special environmental events
+            location: 'wasteland', // Default starting location
+            weather: 'clear', // Default initial weather condition
+            timeOfDay: 'day', // Default initial time of day
+            specialEvents: [] // Container for any ongoing special environmental events
         };
-        this.playerEffects = {}; // Object to store current effects on the player due to the environment
+        this.playerEffects = {}; // Object to store the current effects on the player due to the environment
     }
 
     /**
@@ -24,20 +33,19 @@ export class EnvironmentBase {
      * Applies environmental effects by delegating to specific modules based on the current settings.
      */
     applyEnvironmentalEffects() {
-        // Delegate to specific modules to handle detailed environmental effects
+        // Apply weather effects
         WeatherEffects.handleWeather(this.currentEnvironment.weather, this.playerEffects);
+        // Apply time of day effects
         TimeOfDayEffects.handleTimeOfDay(this.currentEnvironment.timeOfDay, this.playerEffects);
+        // Handle special events that may affect the environment
         SpecialEvents.handleEvents(this.currentEnvironment.specialEvents, this.playerEffects);
+        // Adjust terrain based on the current location settings
         TerrainEffects.handleTerrainChanges(this.currentEnvironment);
 
-        // Log the current environmental state and effects
+        // Log the updated state for debugging and verification purposes
         console.log("Updated Environment: ", this.currentEnvironment);
         console.log("Current Player Effects: ", this.playerEffects);
     }
 }
 
-// Additional modules would be imported to provide detailed implementations
-import { WeatherEffects } from './WeatherEffects.js';
-import { TimeOfDayEffects } from './TimeOfDayEffects.js';
-import { SpecialEvents } from './SpecialEvents.js';
-import { TerrainEffects } from './TerrainEffects.js';
+export default EnvironmentBase;
