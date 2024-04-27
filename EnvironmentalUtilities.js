@@ -1,20 +1,69 @@
-class EnvironmentalUtilities {
-    static requireProtectiveGear(item) {
-        console.log(`Equip ${item} to mitigate environmental effects.`);
-    }
+import { WeatherEffects } from './WeatherEffects.js';
+import { SpecialEvents } from './SpecialEvents.js';
+import { TerrainEffects } from './TerrainEffects.js';
+import { EnvironmentalUtilities } from './EnvironmentalUtilities.js';
 
-    static damageExposedItems(material, severity) {
-        console.log(`Exposure to environment causing ${severity} damage to ${material} items.`);
+export class EnvironmentBase {
+  constructor(scene, map) {
+    this.scene = scene;
+    this.map = map;
+    this.currentEnvironment = {
+      // ...
+    };
+    this.playerEffects = {};
+    this.environmentalUtilities = new EnvironmentalUtilities(scene, map);
+  }
+  
+    requireProtectiveGear(gearType) {
+      // Implement logic to display a notification or UI element to the player
+      // indicating that they need to equip the specified protective gear
+      console.log(`Protective gear required: ${gearType}`);
     }
-
-    static boostMineralAppearance(mineralType, increasePercentage) {
-        console.log(`Increase in ${mineralType} appearance by ${increasePercentage}%.`);
+  
+    damageExposedItems(itemType, severity) {
+      // Implement logic to damage or destroy exposed items of the specified type
+      // based on the severity level
+      console.log(`Damaging exposed ${itemType} items with severity: ${severity}`);
     }
-
-    static alterGameMap(action1, action2) {
-        console.log(`Terrain changes: ${action1} and ${action2}.`);
+  
+    contaminateTerrainObjects(objectType, level) {
+      // Implement logic to contaminate terrain objects of the specified type
+      // based on the contamination level
+      console.log(`Contaminating ${objectType} terrain objects with level: ${level}`);
     }
+  
+    freezeTerrainObjects(objectType, severity) {
+      // Implement logic to freeze terrain objects of the specified type
+      // based on the severity level
+      console.log(`Freezing ${objectType} terrain objects with severity: ${severity}`);
+    }
+  
+    boostMineralAppearance(mineralType, percentage, map) {
+      // Implement logic to increase the appearance of specified minerals on the game map
+      // by the given percentage
+      console.log(`Boosting appearance of ${mineralType} by ${percentage}%`);
+      map.updateMineralAppearance(mineralType, percentage);
+    }
+  
+    reduceMineralAppearance(mineralType, percentage, map) {
+      // Implement logic to reduce the appearance of specified minerals on the game map
+      // by the given percentage
+      console.log(`Reducing appearance of ${mineralType} by ${percentage}%`);
+      map.updateMineralAppearance(mineralType, -percentage);
+    }
+  
+    spawnEnemies(enemyType, density, map) {
+      // Implement logic to spawn enemies of the specified type on the game map
+      // based on the desired density
+      console.log(`Spawning ${enemyType} enemies with density: ${density}`);
+      map.spawnEnemies(enemyType, density);
+    }
+  
+    alterGameMap(action, target, map) {
+      // Implement logic to alter the game map based on the specified action and target
+      console.log(`Altering game map: ${action} ${target}`);
+      map.alterTerrain(action, target);
+    }
+  }
 
-    // Additional utility methods
-}
-export { EnvironmentalUtilities };
+  export { EnvironmentalUtilities };
