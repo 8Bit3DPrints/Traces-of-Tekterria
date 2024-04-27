@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+#game-status p {
+    font-size: 18px;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.attack-buttons {
+    margin-top: 10px;  /* Fixed margin to keep buttons from moving */
+}
+
+.combat-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#xp-container {
+    width: 90%;  /* Adjust based on how much of the screen you want it to occupy */
+    background-color: #eee;  /* Light grey background for the container */
+    border: 1px solid #ccc;  /* Subtle border for the container */
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+#xp-bar {
+    height: 20px;
+    background-color: green;
+    color: white;
+    text-align: center;
+    transition: width 0.5s ease-in-out;  /* Smooth transition for width changes */
+}
+
+#skills-display, #monster-stats {
+    width: 100%;  /* Adjust as needed */
+    margin-bottom: 20px; /* Adds space between sections */
+    padding: 10px; /* Adds space inside the sections */
+    box-sizing: border-box; /* Ensures padding is included in width */
+}
+
+#monster-stats.visible, #skills-display.visible {
+    display: block;  /* Or 'flex' if you want to use Flexbox */
+}
+
+#monster-stats {
+    width: 100%;    /* Ensure full container width */
+    background-color: #f4f4f4;  /* Light background color to show area even when empty */
+    border: 1px solid #ccc;     /* Optional: border to define the area visually */
+    display: none;  /* Initially hidden */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#monster-stats.visible {
+    display: flex;  /* Shown when this class is added via JS */
+}
+
+#monster-stats p {
+    margin: 0;  /* Remove margins to ensure content fits well within the defined height */
+    color: #333; /* Optional: color for text to ensure visibility */
+}
