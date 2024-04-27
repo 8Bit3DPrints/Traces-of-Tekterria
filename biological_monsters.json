@@ -1,0 +1,101 @@
+[
+    {
+        "name": "Sylvan Sprout",
+        "type": "biological",
+        "level": 3,
+        "maxHp": 45,
+        "attack": 10,
+        "defense": 15,
+        "abilities": [
+            { "name": "Toxin Release", "effect": "poison", "cooldown": 10, "range": 5 },
+            { "name": "Camouflage", "effect": "stealth", "cooldown": 5, "range": 0 }
+        ],
+        "lootTable": {
+            "Herbal Essence": 0.4,
+            "Sprout Fibers": 0.3,
+            "Healing Sap": 0.2
+        },
+        "xpValue": 50,
+        "environmentAffinity": ["Forested", "Lush"],
+        "appearanceConditions": {
+            "time": "day",
+            "weather": "misty"
+        },
+        "strengths": ["poison resistance", "high regeneration"],
+        "weaknesses": ["fire", "ice"],
+        "visibility": [
+            { "weather": "sunny", "terrain": ["forest"] },
+            { "weather": "misty", "terrain": ["forest", "grassland"] }
+        ],
+        "behaviorPatterns": ["defensive", "evasive"],
+        "environmentalImpact": {
+            "Forested": { "attackModifier": 0.8, "defenseModifier": 1.2 },
+            "Lush": { "attackModifier": 1, "defenseModifier": 1.5 }
+        },
+        "traits": ["photosynthetic", "toxic", "camouflaging", "regenerative"]
+    },
+    {
+        "name": "Mudling Grub",
+        "type": "biological",
+        "level": 2,
+        "maxHp": 30,
+        "attack": 8,
+        "defense": 12,
+        "abilities": [
+            {"name": "Mud Spit", "effect": "slow", "cooldown": 5, "range": 3},
+            {"name": "Burrow", "effect": "escape", "cooldown": 10, "range": 0}
+        ],
+        "lootTable": {
+            "Mud Carapace": 0.5,
+            "Slimy Secretion": 0.4
+        },
+        "xpValue": 40,
+        "environmentAffinity": ["Swamp", "Muddy"],
+        "appearanceConditions": {
+            "time": "any",
+            "weather": "rainy"
+        },
+        "strengths": ["mud resistance", "low visibility"],
+        "weaknesses": ["cold", "dehydration"],
+        "visibility": [
+            {"weather": "rainy", "terrain": ["swamp", "mud"]}
+        ],
+        "behaviorPatterns": ["defensive", "ambush"],
+        "environmentalImpact": {
+            "Swamp": {"attackModifier": 1.2, "defenseModifier": 1.3}
+        },
+        "traits": ["amphibious", "camouflaging", "regenerative"]
+    },
+    {
+        "name": "Wasteland Wanderer",
+        "type": "biological",
+        "level": 5,
+        "maxHp": 60,
+        "attack": 12,
+        "defense": 18,
+        "abilities": [
+            {"name": "Scavenge", "effect": "heal", "cooldown": 15, "range": 0},
+            {"name": "Desperate Strike", "effect": "damage", "cooldown": 8, "range": 2}
+        ],
+        "lootTable": {
+            "Scrap Metal": 0.3,
+            "Tattered Cloth": 0.5
+        },
+        "xpValue": 75,
+        "environmentAffinity": ["Wasteland"],
+        "appearanceConditions": {
+            "time": "any",
+            "weather": "clear"
+        },
+        "strengths": ["radiation resistance", "high endurance"],
+        "weaknesses": ["isolation", "extreme temperatures"],
+        "visibility": [
+            {"weather": "clear", "terrain": ["wasteland"]}
+        ],
+        "behaviorPatterns": ["resourceful", "cautious"],
+        "environmentalImpact": {
+            "Wasteland": {"attackModifier": 1.1, "defenseModifier": 1.2}
+        },
+        "traits": ["loner", "survivalist", "hardy"]
+    }
+]

@@ -1,41 +1,8 @@
 import { Monster } from './MonsterBase.js';
 
 export class SylvanSprout extends Monster {
-    constructor() {
-        super({
-            name: "Sylvan Sprout",
-            level: 3,
-            maxHp: 45,
-            attack: 10,
-            defense: 15,
-            abilities: [
-                { name: "Toxin Release", effect: "poison", cooldown: 10, range: 5 },
-                { name: "Camouflage", effect: "stealth", cooldown: 5, range: 0 }
-            ],
-            lootTable: {
-                "Herbal Essence": 0.4,
-                "Sprout Fibers": 0.3,
-                "Healing Sap": 0.2
-            },
-            xpValue: 50,
-            environmentAffinity: ["Forested", "Lush"],
-            appearanceConditions: {
-                time: "day",
-                weather: "misty"
-            },
-            strengths: ["poison resistance", "high regeneration"],
-            weaknesses: ["fire", "ice"],
-            visibility: [
-                { weather: "sunny", terrain: ["forest"] },
-                { weather: "misty", terrain: ["forest", "grassland"] }
-            ],
-            behaviorPatterns: ["defensive", "evasive"],
-            environmentalImpact: {
-                "Forested": { attackModifier: 0.8, defenseModifier: 1.2 },
-                "Lush": { attackModifier: 1, defenseModifier: 1.5 }
-            },
-            traits: ["photosynthetic", "toxic", "camouflaging", "regenerative"]
-        });
+    constructor(config) {
+        super(config); // Initialize all config attributes
     }
 
     handleChase() {
@@ -121,4 +88,183 @@ export class SylvanSprout extends Monster {
     }
 }
 
-export default SylvanSprout;
+export class MudlingGrub extends Monster {
+    constructor(config) {
+        super(config);
+    }
+
+    handleFeed(foodType) {
+        if (foodType === "organic matter" && this.environmentAffinity.includes("Swamp")) {
+            this.health += 10;
+            this.trust += 10;
+            this.satisfaction += 20;
+        } else {
+            this.health -= 10;
+            this.trust -= 20;
+            this.aggression += 10; // Reacts negatively to unsuitable food
+        }
+    }
+
+    handleChase() {
+        if (this.traits.includes("camouflaging")) {
+            this.speed *= 0.8; // Slows down but increases camouflage
+            this.stress += 30; // High stress from being chased
+        } else {
+            this.aggression += 20; // Increases aggression if unable to camouflage
+            this.stress += 15;
+        }
+    }
+
+    handleTaunt() {
+        if (this.traits.includes("amphibious")) {
+            this.defense *= 1.1; // Improves defense thanks to amphibious resilience
+            this.stress -= 10; // Reduces stress due to its calm nature
+        } else {
+            this.aggression += 25; // Significantly increases aggression when taunted
+            this.stress += 25; // Also significantly increases stress
+            if (this.environmentAffinity.includes("Swamp")) {
+                this.speed *= 0.9; // Slightly reduces speed as it prepares to defend itself
+            }
+        }
+    }
+
+    handleObserve() {
+        if (this.visibility.some(v => v.weather === "rainy")) {
+            this.stealth += 25; // Enhances stealth in its favored condition
+            this.curiosity -= 5;
+        } else {
+            this.curiosity += 15;
+            this.trust -= 5; // Slightly distrustful when observed in less ideal conditions
+        }
+    }
+
+    handleHeal(amount) {
+        if (this.traits.includes("regenerative")) {
+            this.currentHp += amount;
+            this.comfort += 20;
+        } else {
+            this.stress += 20; // High stress if unable to regenerate effectively
+            this.comfort -= 10;
+        }
+    }
+
+    handleCapture() {
+        this.fear += 30; // Very high fear response
+        this.stress += 25;
+        if (this.traits.includes("regenerative")) {
+            this.aggression -= 10; // Slightly less aggressive due to its regenerative confidence
+        } else {
+            this.aggression += 20;
+        }
+    }
+
+    handlePlay() {
+        if (this.traits.includes("amphibious")) {
+            this.happiness += 15; // Enjoys playing in moist conditions
+            this.energy += 10;
+        } else {
+            this.stress += 25; // High stress from inappropriate play
+            this.energy -= 10;
+        }
+    }
+
+    handleCommand(command) {
+        if (command === "hide" && this.traits.includes("camouflaging")) {
+            this.obedience += 25;
+            this.respect += 15;
+        } else {
+            this.obedience -= 15;
+            this.stress += 25;
+        }
+    }
+}
+
+export class WastelandWanderer extends Monster {
+    constructor(config) {
+        super(config);
+    }
+    
+    handleFeed(foodType) {
+        if (foodType === "canned food") {
+            this.health += 20;
+            this.trust += 20;
+            this.satisfaction += 30;
+        } else {
+            this.health -= 10;
+            this.trust -= 10;
+            this.aggression += 10; // Reacts negatively to non-preferred food
+        }
+    }
+
+    handleChase() {
+        this.speed *= 1.2; // Increases speed significantly when chased
+        this.stress += 30; // Very high stress from being chased
+        if (!this.environmentAffinity.includes("Wasteland")) {
+            this.aggression += 15; // Increases aggression if chased outside its comfort zone
+            this.energy -= 10; // Decreases energy due to adverse conditions
+        }
+    }
+
+    handleTaunt() {
+        this.aggression += 30; // Extremely aggressive response to taunts
+        this.stress += 20; // Increases stress
+        if (this.environmentAffinity.includes("Wasteland")) {
+            this.defense *= 1.2; // Boosts defense in familiar terrain
+        } else {
+            this.defense *= 0.9; // Defense suffers outside of preferred environment
+        }
+    }
+
+    handleObserve() {
+        if (this.traits.includes("survivalist")) {
+            this.stealth += 20; // Increases stealth to avoid detection
+            this.trust -= 10; // Distrust increases when observed
+        } else {
+            this.curiosity += 20;
+            this.trust += 10;
+        }
+    }
+
+    handleHeal(amount) {
+        if (this.strengths.includes("high endurance")) {
+            this.currentHp += amount * 1.5; // Enhanced healing thanks to high endurance
+            this.comfort += 20; // Increases comfort significantly
+        } else {
+            this.currentHp += amount;
+            this.comfort += 10; // Normal comfort increase from healing
+            this.stress -= 5; // Slightly reduces stress due to effective healing
+            if (this.weaknesses.includes("extreme temperatures") && this.currentEnvironment === "Extreme") {
+                this.currentHp += amount * 0.5; // Less effective healing under extreme conditions
+                this.stress += 15; // Increases stress in harsh conditions
+            }
+        }
+    }
+
+    handleCapture() {
+        this.fear += 40; // Extremely fearful of capture
+        this.stress += 30;
+        this.aggression += 20; // Reacts with high aggression to escape
+    }
+
+    handlePlay() {
+        if (this.traits.includes("loner")) {
+            this.happiness -= 10; // Decreases happiness, prefers to be alone
+            this.stress += 20;
+        } else {
+            this.happiness += 20;
+            this.energy += 10;
+        }
+    }
+
+    handleCommand(command) {
+        if (command === "scout" && this.traits.includes("survivalist")) {
+            this.obedience += 30; // Very obedient to survival-related commands
+            this.respect += 20;
+        } else {
+            this.obedience -= 20;
+            this.stress += 30;
+        }
+    }
+}
+
+export { SylvanSprout, MudlingGrub, WastelandWanderer };

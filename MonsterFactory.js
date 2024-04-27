@@ -1,16 +1,35 @@
+import fs from 'fs';
 import { MechanicalMonster } from './MechanicalMonsters.js';
 import { BiologicalMonster } from './BiologicalMonsters.js';
 import { HybridMonster } from './HybridMonsters.js';
+import { MiniBoss } from './MiniBosses.js';
+import { MainBoss } from './MainBosses.js';
 
-export function spawnMonster(type) {
-    switch (type) {
-        case 'mechanical':
-            return new MechanicalMonster("Rogue Robot", 2, 25, 8, 6, [], {"defective battery": 0.2}, 100);
-        case 'biological':
-            return new BiologicalMonster("Radioactive Ghoul", 15, 120, 15, 10, [], {"ghoul flesh": 0.3}, 300);
-        case 'hybrid':
-            return new HybridMonster("Cybernetic Vampire", 20, 150, 20, 15, [], {}, 400);
-        default:
-            throw new Error('Unknown monster type');
+class MonsterFactory {
+    // Load monsters from specified JSON file
+    static loadMonstersFromJSON(filePath) {
+        const fileData = fs.readFileSync(filePath, 'utf8');
+        const data = JSON.parse(fileData);
+        return data.monsters.map(monsterData => this.createMonster(monsterData));
+    }
+
+    // Create a monster instance based on type
+    static createMonster(monsterData) {
+        switch (monsterData.type) {
+            case 'mechanical':
+                return new MechanicalMonster(monsterData);
+            case 'biological':
+                return new BiologicalMonster(monsterData);
+            case 'hybrid':
+                return new HybridMonster(monsterData);
+            case 'mini-boss':
+                return new MiniBoss(monsterData);
+            case 'main-boss':
+                return new MainBoss(monsterData);
+            default:
+                throw new Error('Unknown monster type');
+        }
     }
 }
+
+export default MonsterFactory;
