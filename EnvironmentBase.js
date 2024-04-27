@@ -18,16 +18,17 @@ export class EnvironmentBase {
         this.playerEffects = {}; // Object to store the current effects on the player due to the environment
     }
 
-    /**
-     * Updates the environmental settings based on input and triggers the effect application.
-     * @param {Object} envConfig - Contains location, weather, timeOfDay, and special events.
-     */
-    updateEnvironment(envConfig) {
-        // Update the current environment settings from provided configuration
-        this.currentEnvironment = { ...this.currentEnvironment, ...envConfig };
-        // Apply the effects of the updated environment
-        this.applyEnvironmentalEffects();
-    }
+  /**
+   * Updates the environmental settings based on input and triggers the effect application.
+   * @param {Object} envConfig - Contains location, weather, timeOfDay, and special events.
+   */
+  updateEnvironment(envConfig) {
+    // Update the current environment settings from provided configuration
+    this.currentEnvironment = { ...this.currentEnvironment, ...envConfig };
+
+    // Apply the effects of the updated environment
+    this.applyEnvironmentalEffects();
+  }
 
     /**
      * Applies environmental effects by delegating to specific modules based on the current settings.
