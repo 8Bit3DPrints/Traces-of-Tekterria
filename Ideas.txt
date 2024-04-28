@@ -1,4 +1,4 @@
-Scripts:
+Scripts:  futuristic post-apocalypse related
 
 NPC AI: Create scripts for non-player characters (NPCs) to interact with the player, each other, and the environment.
 Environmental Hazards: Write scripts for environmental hazards like traps, puzzles, and natural disasters.
