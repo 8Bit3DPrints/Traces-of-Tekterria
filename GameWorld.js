@@ -5,7 +5,7 @@ import { WeatherEffects } from './WeatherEffects';
 
 class GameWorld extends Phaser.Scene {
   constructor() {
-    super('game-world');
+    super('Traces of Tekterria');
     this.environmentManager = null;
     this.player = null;
     this.monsters = [];
