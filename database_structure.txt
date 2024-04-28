@@ -1,0 +1,26 @@
+**recipes table**
+
+* id (primary key)
+* name
+* skillLevel
+* craftingTime
+
+**materials table**
+
+* id (primary key)
+* name
+* quantity
+
+**crafting_results table**
+
+* id (primary key)
+* recipe_id (foreign key referencing recipes table)
+* material_id (foreign key referencing materials table)
+* quantity
+
+**recipe_materials table**
+
+* id (primary key)
+* recipe_id (foreign key referencing recipes table)
+* material_id (foreign key referencing materials table)
+* quantity
