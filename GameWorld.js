@@ -185,4 +185,40 @@ class TimeCycle {
     }
   }
   
-  export default GameWorld;
+  class EnvironmentalUtilities {
+    static alterGameMap(action, description, map) {
+      // Alter the game map based on the specified action and description
+    }
+  
+    static damageTerrainObjects(type, severity, map) {
+      // Damage terrain objects of the specified type and severity
+    }
+  
+    static contaminateTerrainObjects(type, level, map) {
+      // Contaminate terrain objects of the specified type and level
+    }
+  
+    static freezeTerrainObjects(type, level, map) {
+      // Freeze terrain objects of the specified type and level
+    }
+  }
+
+  class GameWorld extends Phaser.Scene {
+    constructor() {
+      super('GameWorld');
+    }
+  
+    preload() {
+      // Load assets
+    }
+  
+    create() {
+      // Create game objects
+    }
+  
+    update() {
+      // Update game logic
+    }
+  }
+  
+  export { GameWorld };
