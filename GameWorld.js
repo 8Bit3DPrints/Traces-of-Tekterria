@@ -220,4 +220,4 @@ class TimeCycle {
     }
   }
   
-  export { GameWorld };
+  export default GameWorld;
