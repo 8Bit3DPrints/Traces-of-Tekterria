@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import * as PIXI from 'pixi.js';
 import { Howler, Howl } from 'howler';
 import { WeatherEffects } from './WeatherEffects';
+import { SpecialEvents } from './SpecialEvents';
 
 class GameWorld extends Phaser.Scene {
   constructor() {
@@ -59,9 +60,12 @@ class GameWorld extends Phaser.Scene {
 
     // Create game objects (player, monsters, environment, etc.)
     this.player = this.createPlayer();
+    this.monsters = [];
+    this.currentMonster = null;
     this.environmentManager = new EnvironmentManager(this);
     this.weather = new WeatherSystem(this);
     this.timeCycle = new TimeCycle(this);
+    this.specialEvents = new SpecialEvents();
 
     // Load and play background music
     this.sounds.gameMusic = new Howl({
@@ -105,6 +109,19 @@ class GameWorld extends Phaser.Scene {
     this.environmentManager.applyEnvironmentalEffects();
     this.weather.update();
     this.timeCycle.update();
+    this.specialEvents.handleEvents([
+      'meteor shower',
+      'sandstorm',
+      'electrical storm',
+      'viral outbreak',
+      'alien invasion',
+      'time warp',
+      'resource depletion',
+    ], {
+      // Player effects
+    }, this, {
+      // Map
+    });
   }
 }
 
@@ -200,24 +217,6 @@ class TimeCycle {
   
     static freezeTerrainObjects(type, level, map) {
       // Freeze terrain objects of the specified type and level
-    }
-  }
-
-  class GameWorld extends Phaser.Scene {
-    constructor() {
-      super('GameWorld');
-    }
-  
-    preload() {
-      // Load assets
-    }
-  
-    create() {
-      // Create game objects
-    }
-  
-    update() {
-      // Update game logic
     }
   }
   
