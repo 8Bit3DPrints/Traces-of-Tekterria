@@ -82,6 +82,77 @@ section, aside {
     transition: all 0.5s;
 }
 
+/* Base styles for the game environment */
+body {
+    transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+    font-family: 'Arial', sans-serif;
+    color: #ddd;
+    overflow-x: hidden;
+}
+
+/* Environments */
+.wasteland {
+    --background-day: linear-gradient(to top, #8e9b97 0%, #5c6362 100%);
+    --background-night: linear-gradient(to top, #2b3031 0%, #424949 100%);
+    --background-dusk: linear-gradient(to top, #5c6265 0%, #494e50 100%);
+}
+
+.forest {
+    --background-day: linear-gradient(to top, #0a480d 0%, #0b6b1d 100%);
+    --background-night: linear-gradient(to top, #022d01 0%, #004400 100%);
+    --background-dusk: linear-gradient(to top, #04370c 0%, #0a5514 100%);
+}
+
+.city {
+    --background-day: linear-gradient(to top, #b0bec5 0%, #78909c 100%);
+    --background-night: linear-gradient(to top, #263238 0%, #37474f 100%);
+    --background-dusk: linear-gradient(to top, #546e7a 0%, #455a64 100%);
+}
+
+/* Dynamic background based on custom properties */
+body {
+    background: var(--background-day);
+}
+
+.day {
+    --weather-filter: brightness(100%);
+}
+
+.night {
+    --weather-filter: brightness(50%) contrast(120%);
+}
+
+.dusk {
+    --weather-filter: brightness(70%);
+}
+
+.sunny {
+    --additional-filter: drop-shadow(0px 0px 5px rgba(255, 204, 0, 0.5));
+}
+
+.overcast {
+    --additional-filter: grayscale(20%);
+}
+
+.rainy {
+    --additional-filter: blur(1px);
+    background-image: url('rain-effect.png'); /* Assuming a semi-transparent rain overlay image */
+}
+
+.snowy {
+    --additional-filter: brightness(110%) contrast(110%);
+    background-image: url('snow-effect.png');
+}
+
+.hail {
+    --additional-filter: contrast(130%);
+    background-image: url('hail-effect.png');
+}
+
+.foggy {
+    --additional-filter: blur(2px);
+}
+
 #interaction-zone {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

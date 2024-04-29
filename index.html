@@ -21,13 +21,22 @@
     <nav id="game-controls">
         <button id="saveGame" aria-label="Save your current game">Save Game</button>
         <button id="loadGame" aria-label="Load a saved game">Load Game</button>
+        <button onclick="updateGameEnvironment('forest', 'rainy', 'night')">Forest Night Rainy</button> <!-- Temporary button to simulate environment changes -->
+        <button onclick="updateGameEnvironment('wasteland', 'sunny', 'day')">Wasteland Day Sunny</button> <!-- Temporary button to simulate environment changes -->
+        <button onclick="updateGameEnvironment('city', 'foggy', 'dusk')">City Dusk Foggy</button> <!-- Temporary button to simulate environment changes -->
     </nav>
 
-    <section id="environment-info">
-        <div id="location-display">Location: Wasteland</div>
-        <div id="weather-display">Weather: Clear</div>
-        <div id="time-day-display">Time of Day: Noon</div>
-    </section>
+
+
+    <body id="game-body" class="wasteland day sunny"> <!-- Default environment settings -->
+        ...
+        <section id="environment-info">
+            <div id="location-display" data-location="wasteland">Location: Wasteland</div>
+            <div id="weather-display" data-weather="clear">Weather: Clear</div>
+            <div id="time-day-display" data-time="day">Time of Day: Noon</div>
+        </section>
+        ...
+    </body>
 
     <section id="interaction-zone">
         <div id="npc-interactions">
@@ -144,5 +153,7 @@
 
     <script type="module" src="Game.js"></script>
     <script src="path/to/player.js"></script>
+    <script src="Environmental System/updateGameEnvironmentTemp.js"></script>
+
 </body>
 </html>
