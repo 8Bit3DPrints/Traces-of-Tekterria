@@ -1,73 +1,225 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-#game-status p {
-    font-size: 18px;
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #0f0f23 0%, #1a1a2e 100%);
+    color: #ccc;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+header {
+    background-color: #282850;
+    color: #fff;
+    padding: 15px 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+header h1 {
+    margin-bottom: 10px;
+    font-size: 2.2em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+#player-info {
+    font-size: 1.05em;
+    opacity: 0.9;
+}
+
+nav#game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px 0;
 }
 
 button {
-    margin: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
+    background-color: #556;
+    color: #eee;
+    border: 1px solid #666;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
-.attack-buttons {
-    margin-top: 10px;  /* Fixed margin to keep buttons from moving */
+button:hover {
+    background-color: #779;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+button:focus {
+    outline: none;
+    border-color: #fff;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.5);
+}
+
+
+section, aside {
+    padding: 20px;
+    border-top: 3px solid #555;
+}
+
+#environment-info {
+    background-color: #223;
+    padding: 15px;
+    text-align: center;
+    background: radial-gradient(circle, #2e2e4e, #222244);
+    border-radius: 10px;
+    transition: all 0.5s;
+}
+
+#interaction-zone {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+#npc-interactions, #monster-interactions, #crafting-zone {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    transition: transform 0.3s ease-in-out;
+}
+
+#npc-interactions:hover, #monster-interactions:hover, #crafting-zone:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+}
+
+#npc-list, #monster-list, #inventory-items, #equipped-items {
+    list-style: none;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
 }
 
 .combat-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background: rgba(40, 40, 60, 0.85);
+    padding: 20px;
+    border-radius: 10px;
+    animation: fadeIn 1s ease-in-out;
 }
 
-#xp-container {
-    width: 90%;  /* Adjust based on how much of the screen you want it to occupy */
-    background-color: #eee;  /* Light grey background for the container */
-    border: 1px solid #ccc;  /* Subtle border for the container */
-    padding: 5px;
-    box-sizing: border-box;
+.combat-area h3, .combat-area h4 {
+    color: #adff2f; /* Green */
 }
 
-#xp-bar {
-    height: 20px;
-    background-color: green;
-    color: white;
+.inventory, .equipment {
+    background-color: #252535;
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+footer {
     text-align: center;
-    transition: width 0.5s ease-in-out;  /* Smooth transition for width changes */
+    padding: 20px 0;
+    font-size: 0.85em;
+    background-color: #282850;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
 }
 
-#skills-display, #monster-stats {
-    width: 100%;  /* Adjust as needed */
-    margin-bottom: 20px; /* Adds space between sections */
-    padding: 10px; /* Adds space inside the sections */
-    box-sizing: border-box; /* Ensures padding is included in width */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    background: rgba(20, 20, 50, 0.95);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: none;
 }
 
-#monster-stats.visible, #skills-display.visible {
-    display: block;  /* Or 'flex' if you want to use Flexbox */
+.modal.active {
+    display: block;
+    animation: modalIn 0.5s forwards;
 }
 
-#monster-stats {
-    width: 100%;    /* Ensure full container width */
-    background-color: #f4f4f4;  /* Light background color to show area even when empty */
-    border: 1px solid #ccc;     /* Optional: border to define the area visually */
-    display: none;  /* Initially hidden */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.modal-header, .modal-body, .modal-footer {
     padding: 10px;
-    box-sizing: border-box;
 }
 
-#monster-stats.visible {
-    display: flex;  /* Shown when this class is added via JS */
+.modal-close {
+    float: right;
+    cursor: pointer;
+    color: #fff;
+    font-size: 1.5em;
 }
 
-#monster-stats p {
-    margin: 0;  /* Remove margins to ensure content fits well within the defined height */
-    color: #333; /* Optional: color for text to ensure visibility */
+.modal-header h3 {
+    margin: 0;
+    color: #adff2f;
+}
+
+.modal-body {
+    margin-top: 15px;
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Enhance tooltips */
+.equipment-tooltip {
+    visibility: hidden;
+    width: 160px;
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position:absolute;
+    z-index: 1001;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s ease;
+}
+.equipment-slot:hover .equipment-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    #interaction-zone {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    #npc-interactions, #monster-interactions, #crafting-zone {
+        margin: 10px 0;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
 }

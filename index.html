@@ -3,71 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Idle RPG Game</title>
+    <title>Traces of Tekterria</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Traces of Tekterria</h1>
+    <header>
+        <h1>Traces of Tekterria</h1>
+        <div id="player-info">
+            <!-- Each span now has a unique ID for easy JavaScript access -->
+            <span id="health">Health: <span id="health-value">100</span></span> |
+            <span id="mana">Mana: <span id="mana-value">50</span></span> |
+            <span id="stamina">Stamina: <span id="stamina-value">50</span></span> |
+            <span id="gold">Gold: <span id="gold-value">0</span> coins</span>
+        </div>
+    </header>
     
-    <!-- Game control buttons with ID for easier JavaScript access -->
-    <button id="saveGame">Save Game</button>
-    <button id="loadGame">Load Game</button>
+    <nav id="game-controls">
+        <button id="saveGame" aria-label="Save your current game">Save Game</button>
+        <button id="loadGame" aria-label="Load a saved game">Load Game</button>
+    </nav>
 
-    <!-- Game status and stats -->
-    <div id="game-status">
-        <p>Location: <span id="location-display">Starting Island</span></p>
-        <p>Health: <span id="health">100</span></p>
-        <p>Mana: <span id="mana">50</span></p>
-        <p>Stamina: <span id="stamina">50</span></p>
-        <div id="xp-container">
-            <div id="xp-bar" style="width: 0%; height: 20px; background-color: green; color: white; text-align: center;">XP: 0 / 100</div>
+    <section id="environment-info">
+        <div id="location-display">Location: Wasteland</div>
+        <div id="weather-display">Weather: Clear</div>
+        <div id="time-day-display">Time of Day: Noon</div>
+    </section>
+
+    <section id="interaction-zone">
+        <div id="npc-interactions">
+            <h2>NPC Interactions</h2>
+            <div id="npc-list"></div>
         </div>
-        <p>Gold: <span id="moneyPouch">0</span> coins</p>
+        <div id="monster-interactions">
+            <h2>Monsters</h2>
+            <div id="monster-list"></div>
+            <div id="combat-area" class="combat-area">
+                <div class="attack-buttons">
+                    <button id="meleeAttack">Melee Attack</button>
+                    <button id="rangedAttack">Ranged Attack</button>
+                    <button id="magicAttack">Magic Attack</button>
+                </div>
+                <div id="skills-display">
+                    <h3>Skills</h3>
+                    <ul id="skills-list"></ul>
+                </div>
+                <div id="monster-stats" class="monster-info">
+                    <h4>Monster Stats</h4>
+                    <p>Monster Name: <span id="monster-name"></span></p>
+                    <p>Monster Health: <span id="monster-hp"></span></p>
+                    <p>Monster Level: <span id="monster-level"></span></p>
+                    <p>Monster Attack: <span id="monster-attack"></span></p>
+                    <p>Monster Defense: <span id="monster-defense"></span></p>
+                    <h4>Abilities</h4>
+                    <ul id="monster-abilities"></ul>
+                    <h4>Potential Loot</h4>
+                    <ul id="monster-loot"></ul>
+                </div>
+            </div>
+        </div>
+        <div id="crafting-zone">
+            <h2>Crafting</h2>
+            <div id="crafting-interface"></div>
+        </div>
+    </section>
+
+    <aside id="inventory">
+        <h2>Inventory</h2>
+        <div id="inventory-items"></div>
+    </aside>
+
+<!-- Modal for Equipped Items -->
+<div id="equipped-items-modal" class="modal">
+    <button id="close-equipped-modal">&times;</button>
+    <div id="equipment-display">
+        <!-- Grid for equipped items -->
+        <div class="equipment-slot" data-slot="helm">
+            <img src="path/to/default-helm.png" alt="Helm">
+            <div class="equipment-tooltip">Helm Stats</div>
+        </div>
+        <div class="equipment-slot" data-slot="mask">
+            <img src="path/to/default-mask.png" alt="Mask">
+            <div class="equipment-tooltip">Mask Stats</div>
+        </div>
+        <div class="equipment-slot" data-slot="body">
+            <img src="path/to/default-body-armor.png" alt="Body Armor">
+            <div class="equipment-tooltip">Body Armor Stats</div>
+        </div>
+        <div class="equipment-slot" data-slot="legs">
+            <img src="path/to/default-legs.png" alt="Legs">
+            <div class="equipment-tooltip">Legs Stats</div>
+        </div>
+        <div class="equipment-slot" data-slot="boots">
+            <img src="path/to/default-boots.png" alt="Boots">
+            <div class="equipment-tooltip">Boots Stats</div>
+        </div>
+        <div class="equipment-slot" data-slot="gloves">
+            <img src="path/to/default-gloves.png" alt="Gloves">
+            <div class="equipment-tooltip">Gloves Stats</div>
+        </div>
+        <div class="equipment-slot" data-slot="ring1">
+            <img src="path/to/default-ring1.png" alt="Ring 1">
+            <div class="equipment-tooltip">Ring 1 Stats</div>
+        </div>
+        <div class="equipment-slot" data-slot="ring2">
+            <img src="path/to/default-ring2.png" alt="Ring 2">
+            <div class="equipment-tooltip">Ring 2 Stats</div>
+        </div>
+        <div class="equipment-slot" data-slot="weapon">
+            <img src="path/to/default-weapon.png" alt="Weapon">
+            <div class="equipment-tooltip">Weapon Stats</div>
+        </div>
+        <div class="equipment-slot" data-slot="shield">
+            <img src="path/to/default-shield.png" alt="Shield">
+            <div class="equipment-tooltip">Shield Stats</div>
+        </div>
+    </div>
+    <div id="total-stats">
+        Total Stats: <br>
+        Strength: +10, Agility: +5, Intellect: +3
+    </div>
+</div>
+
+    <!-- Modal for NPC/Monster interactions and Skill Tree -->
+    <div id="interaction-modal" class="modal">
+        <div class="modal-header">
+            <span class="modal-close">&times;</span>
+            <h3>Interaction Details</h3>
+        </div>
+        <div class="modal-body">
+            <!-- Content dynamically injected here -->
+        </div>
+        <div class="modal-footer">
+            <button>Close</button>
+        </div>
     </div>
 
-    <!-- Combat area with class names for styling and easy JavaScript access -->
-    <div class="combat-area">
-        <div class="attack-buttons">
-            <button id="meleeAttack">Melee Attack</button>
-            <button id="rangedAttack">Ranged Attack</button>
-            <button id="magicAttack">Magic Attack</button>
-        </div>
-        <div id="skills-display">
-            <h3>Skills</h3>
-            <ul id="skills-list"></ul>
-        </div>
-        <div id="monster-stats" class="monster-info">
-            <p>Monster Name: <span id="monster-name"></span></p>
-            <p>Monster Health: <span id="monster-hp"></span></p>
-            <p>Monster Level: <span id="monster-level"></span></p>
-            <p>Monster Attack: <span id="monster-attack"></span></p>
-            <p>Monster Defense: <span id="monster-defense"></span></p>
-            <h4>Abilities</h4>
-            <ul id="monster-abilities"></ul>
-            <h4>Potential Loot</h4>
-            <ul id="monster-loot"></ul>
-        </div>
-    </div>
+    <footer>
+        <p>&copy; 2024 Traces of Tekterria</p>
+    </footer>
 
-    <h2>Inventory</h2>
-    <div id="inventory"></div>
-
-    <h2>Equipment</h2>
-    <div id="equipment">
-        <p>Helm: <span id="helm">None</span></p>
-        <p>Mask: <span id="mask">None</span></p>
-        <p>Body: <span id="body">None</span></p>
-        <p>Legs: <span id="legs">None</span></p>
-        <p>Boots: <span id="boots">None</span></p>
-        <p>Gloves: <span id="gloves">None</span></p>
-        <p>Ring 1: <span id="ring1">None</span></p>
-        <p>Ring 2: <span id="ring2">None</span></p>
-        <p>Weapon: <span id="weapon">None</span></p>
-        <p>Shield: <span id="shield">None</span></p>
-        <ul id="equipment-list"></ul>
-    </div>
-
-    <!-- Link to the main JavaScript module -->
     <script type="module" src="Game.js"></script>
+    <script src="path/to/player.js"></script>
 </body>
 </html>
