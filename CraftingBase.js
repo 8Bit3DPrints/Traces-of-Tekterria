@@ -1,5 +1,8 @@
-export class CraftingBase {
+import { EnvironmentBase } from './EnvironmentBase.js';
+
+export class CraftingBase extends EnvironmentBase {
     constructor() {
+        super();
         this.materials = [];
         this.recipes = [];
         this.inventory = [];
@@ -12,13 +15,14 @@ export class CraftingBase {
         this.environmentFactors = {};
     }
 
-    gatherMaterials(materialName, quantity, environment) {
+    gatherMaterials(materialName, quantity) {
+        const environment = this.currentEnvironment.location; // Assuming environment is determined by location
         const material = this.materials.find(material => material.name === materialName);
-        const environmentalEffect = this.adjustForEnvironment(environment, materialName);
+        const environmentalEffect = this.adjustForEnvironment(materialName);
         const actualQuantity = quantity * environmentalEffect.gatheringMultiplier;
         if (material) {
             material.quantity += actualQuantity;
-            console.log(`Gathered ${actualQuantity} units of ${materialName} in ${environment} environment.`);
+            console.log(`Gathered ${actualQuantity} units of ${materialName} under ${environment} conditions.`);
         } else {
             this.logError(`Unknown material: ${materialName}`);
         }
@@ -37,34 +41,35 @@ export class CraftingBase {
     }
 
     // Enhanced method to handle environmental effects more dynamically
-    adjustForEnvironment(environment, recipeName) {
-        const effects = this.environmentFactors[environment] || {};
-        const tempAdjustments = {
+    adjustForEnvironment(itemName) {
+        const { weather, timeOfDay, specialEvents } = this.currentEnvironment;
+        let effects = this.environmentFactors[weather] || {};
+        effects = {...effects, ...(this.environmentFactors[timeOfDay] || {})};
+
+        specialEvents.forEach(event => {
+            effects = {...effects, ...(this.environmentFactors[event] || {})};
+        });
+
+        return {
+            gatheringMultiplier: effects.gatheringMultiplier || 1,
             successRateAdjustment: effects.successRate || 1,
-            timeAdjustment: effects.craftingTimeMultiplier || 1,
-            qualityAdjustment: effects.qualityModifiers ? (effects.qualityModifiers[recipeName] || 1) : 1
+            timeAdjustment: effects.timeMultiplier || 1,
+            qualityAdjustment: effects.qualityModifiers ? (effects.qualityModifiers[itemName] || 1) : 1
         };
-
-        // Adding negative outcomes based on environment
-        if (effects.harshConditions && Math.random() < 0.1) {  // Assuming a 10% chance of harsh conditions affecting crafting
-            tempAdjustments.successRateAdjustment *= 0.5; // Halving the success rate due to harsh conditions
-            console.log("Harsh environmental conditions have made crafting more difficult.");
-        }
-
-        return tempAdjustments;
     }
 
     // Modifying the craftItem to include potential failures
-    craftItem(recipeName, environment) {
+    craftItem(recipeName) {
+        const environment = this.currentEnvironment.location;
         const recipe = this.recipes.find(recipe => recipe.name === recipeName);
         if (!recipe) {
             this.logError(`Unknown recipe: ${recipeName}`);
             return;
         }
-        const envEffects = this.adjustForEnvironment(environment, recipeName);
+        const envEffects = this.adjustForEnvironment(recipeName);
 
-        if (Math.random() > envEffects.successRateAdjustment) { // Crafting may fail based on adjusted success rate
-            this.logError(`Failed to craft ${recipeName} due to environmental factors.`);
+        if (Math.random() > envEffects.successRateAdjustment) {
+            this.logError(`Failed to craft ${recipeName} due to challenging ${environment} conditions.`);
             return;
         }
 
@@ -72,7 +77,7 @@ export class CraftingBase {
             this.logError(`Not enough materials to craft ${recipeName}`);
             return;
         }
-        
+
         this.consumeMaterials(recipe.materials);
         this.craftSuccess(recipe.result, recipe.craftingTime * envEffects.timeAdjustment, envEffects.qualityAdjustment);
     }
@@ -139,10 +144,9 @@ export class CraftingBase {
     }
 
     // Method to simulate the effect of the environment on crafting quality
-    applyEnvironmentalEffects(itemName, environment) {
-        const qualityModifiers = this.environmentFactors[environment]?.qualityModifiers || {};
-        const qualityBonus = qualityModifiers[itemName] || 0;
-        console.log(`Crafted ${itemName} with a quality bonus of ${qualityBonus} in the ${environment} environment.`);
+    applyEnvironmentalEffects() {
+        // Override this method to apply crafting-specific environmental effects
+        console.log(`Applying environmental effects based on current conditions: ${JSON.stringify(this.currentEnvironment)}`);
     }
 
     // Method to handle the player's learning curve in crafting as they become more proficient
